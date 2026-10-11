@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. Load or upload a CSV dataset, inspect its SHA-256 fingerprint and quality profile, and confirm variables/assumptions**
+- [x] **1. Load or upload a CSV dataset, inspect its SHA-256 fingerprint and quality profile, and confirm variables/assumptions**
   Becomes usable: A running React + Vite + Tailwind + Cloudflare Worker app where you can click **Try a sample dataset** (`synthetic_groups.csv`, `synthetic_correlation.csv`, `messy_example.csv`) or upload a `.csv`, see the local SHA-256 hash, 10-row preview, missing/duplicate/coercion/identifier flags, opt-in whitespace and complete-case normalization controls, and confirm columns, units, and independent observations to unlock Step 2.
   Why now: Bootstraps the project per the spec and proves browser-only CSV intake, SHA-256 provenance fingerprinting, and messy-data guardrails end to end on the first step.
   PRD ref: `prd.md > The Core Journey` (steps 1-2), `prd.md > Screens and Layout`, `prd.md > Look and Feel`, `prd.md > 1. CSV Intake, Validation, and Data Profiling`

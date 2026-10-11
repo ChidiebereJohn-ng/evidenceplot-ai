@@ -1,0 +1,13 @@
+sample_id,group,response,unit
+SYN01,control,8.2,arbitrary units
+SYN02,control,9.4,arbitrary units
+SYN03,control,10.1,arbitrary units
+SYN04,control,9.8,arbitrary units
+SYN05,control,10.5,arbitrary units
+SYN06,control,8.9,arbitrary units
+SYN07,treatment,11.9,arbitrary units
+SYN08,treatment,12.8,arbitrary units
+SYN09,treatment,13.1,arbitrary units
+SYN10,treatment,14.2,arbitrary units
+SYN11,treatment,12.5,arbitrary units
+SYN12,treatment,13.7,arbitrary units
