@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidencePlotAnalysisPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "analysis": {
+      "type": "string",
+      "enum": [
+        "descriptive",
+        "welch_t",
+        "pearson"
+      ]
+    },
+    "chart": {
+      "type": "string",
+      "enum": [
+        "grouped_points",
+        "scatter",
+        "time_series"
+      ]
+    },
+    "columns": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "x": {
+          "type": "string"
+        },
+        "y": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "requires_confirmation",
+        "cannot_proceed"
+      ]
+    },
+    "assumptions_to_confirm": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8
+    },
+    "rationale": {
+      "type": "string",
+      "maxLength": 650
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8
+    }
+  },
+  "required": [
+    "analysis",
+    "chart",
+    "columns",
+    "confidence",
+    "assumptions_to_confirm",
+    "rationale",
+    "warnings"
+  ]
+}

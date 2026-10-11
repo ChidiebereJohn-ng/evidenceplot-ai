@@ -1,0 +1,8 @@
+sample_id,group,response,unit
+SYN01, control ,10.2,mg/L
+SYN02,Control,,mg/L
+SYN03,control,not available,mg/L
+SYN04,treatment,15.1,mg/L
+SYN04,treatment,15.1,mg/L
+SYN05,treatment,-999,mg/L
+SYN06,treated,16.3,unknown

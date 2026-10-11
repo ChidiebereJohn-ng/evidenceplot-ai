@@ -1,0 +1,25 @@
+# Devpost Learn personal context
+/devpost/learner-profile.md
+
+# Dependencies & build outputs
+node_modules/
+dist/
+.wrangler/
+
+# Credentials, secrets & environment variables
+.dev.vars
+.dev.vars*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs, coverage & local scratch
+*.log
+.coverage/
+.local/
+
+# Do not commit real research participants' data; synthetic fixtures only
+private-data/
+private-uploads/

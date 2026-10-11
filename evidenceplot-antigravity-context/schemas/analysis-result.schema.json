@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidencePlotAnalysisResult",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "descriptive",
+        "welch_t",
+        "pearson"
+      ]
+    },
+    "n_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "numbers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string"
+        },
+        "scipy": {
+          "type": "string"
+        },
+        "pandas": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "analysis_id",
+    "method",
+    "n_total",
+    "numbers",
+    "warnings",
+    "limitations"
+  ]
+}

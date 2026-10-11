@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidencePlotInterpretation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "headline": {
+      "type": "string",
+      "maxLength": 180
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 1200
+    },
+    "figure_caption": {
+      "type": "string",
+      "maxLength": 650
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8
+    },
+    "verified_claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 70
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      },
+      "maxItems": 16
+    }
+  },
+  "required": [
+    "headline",
+    "summary",
+    "figure_caption",
+    "limitations",
+    "verified_claims"
+  ]
+}

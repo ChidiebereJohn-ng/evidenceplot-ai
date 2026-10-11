@@ -1,0 +1,12 @@
+# Merge these entries into the project's scaffold-generated .gitignore
+node_modules/
+dist/
+.dev.vars*
+.env*
+!.env.example
+*.log
+.coverage/
+.local/
+# Do not commit real research participants' data; synthetic fixtures only
+private-data/
+private-uploads/

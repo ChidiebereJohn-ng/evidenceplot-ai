@@ -1,0 +1,2 @@
+# Synthetic test datasets
+No human or private research records are included. `synthetic_groups.csv` supports independent groups with a numeric response; `synthetic_correlation.csv` supports paired numeric x/y values across independent observations (not a paired group design); `messy_example.csv` is for validation, never for unreviewed statistical reporting. Numbers are fictional and have no scientific meaning.

@@ -1,0 +1,25 @@
+{
+  "source": "synthetic fixtures; all values fictional",
+  "reference_library": "SciPy 1.17.0",
+  "welch_t": {
+    "group_a": "control",
+    "group_b": "treatment",
+    "n_a": 6,
+    "n_b": 6,
+    "mean_a": 9.483333333333334,
+    "mean_b": 13.033333333333333,
+    "difference_b_minus_a": 3.549999999999999,
+    "t_b_minus_a": 7.380012590391277,
+    "df": 9.998832802570716,
+    "p_two_sided": 2.3709996710368112e-05,
+    "ci95_difference_b_minus_a": [
+      2.4781836598598863,
+      4.621816340140112
+    ]
+  },
+  "pearson": {
+    "n": 10,
+    "r": 0.9854085435609243,
+    "p_two_sided": 1.9487127904117054e-07
+  }
+}
