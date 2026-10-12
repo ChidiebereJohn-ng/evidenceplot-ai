@@ -4,6 +4,8 @@ import { WelcomeHero } from './components/WelcomeHero';
 import { DataInspectorStep } from './components/DataInspectorStep';
 import { AnalysisPlanStep } from './components/AnalysisPlanStep';
 import { FigureStudioStep } from './components/FigureStudioStep';
+import { ExportEvidenceStep } from './components/ExportEvidenceStep';
+
 import {
   parseAndValidateCsvBuffer,
   type ParsedCsvData,
@@ -374,17 +376,25 @@ export const App: React.FC = () => {
           />
         )}
 
-        {currentStep === 4 && (
-          <div className="bg-white border border-[#E3E9EE] rounded-2xl p-6 shadow-xs">
-            <h2 className="text-xl font-bold text-[#10233F]">
-              Step 4 — Export &amp; Figure Evidence Passport
-            </h2>
-            <p className="text-sm text-[#536579] mt-1">
-              Proceeding to Slice 3 Figure Evidence Passport, claim verifier, and SVG/PNG/JSON/report exports.
-            </p>
-          </div>
+        {currentStep === 4 && parsedData && profile && analysisResult && (
+          <ExportEvidenceStep
+            svgRef={svgRef}
+            fileName={parsedData.fileName}
+            sha256={parsedData.sha256}
+            profile={profile}
+            normalization={normalization}
+            confirmedConfig={confirmedConfig}
+            confirmedAssumptions={confirmedAssumptions}
+            researchObjective={researchObjective}
+            chartKind={chartKind}
+            styleConfig={styleConfig}
+            result={analysisResult}
+            runWithoutAi={runWithoutAi}
+            onBackToStudio={() => setCurrentStep(3)}
+          />
         )}
       </main>
     </div>
   );
 };
+

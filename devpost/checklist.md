@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Load `synthetic_groups.csv`, confirm independent observations in Step 2, inspect the 12 plotted points and Welch's t-test numbers in Step 3, and try editing the chart title, units, and color theme.
   Commit: `Add Pyodide/SciPy statistical engine, assumption gate, and Figure Studio`
 
-- [ ] **3. Generate the Figure Evidence Passport, trace claims to verified numbers, and export SVG, PNG, Passport JSON, and summary report**
+- [x] **3. Generate the Figure Evidence Passport, trace claims to verified numbers, and export SVG, PNG, Passport JSON, and summary report**
   Becomes usable: In **Step 4 (Export & Evidence)**, you can review the grounded figure caption and limitations, click interactive **Verified Claims** badges to highlight the matching calculation row in the expandable **Figure Evidence Passport**, and download real `.svg`, `2x` `.png`, `evidence-passport.json`, and `.md`/`.html` summary report files—completing the primary two-group workflow end to end.
   Why now: Completes the signature differentiator (**Figure Evidence Passport** + verified exports) so the primary two-group vertical slice is 100% functional end to end, including full **Run without AI** deterministic operation.
   PRD ref: `prd.md > The Core Journey` (step 5), `prd.md > 5. Grounded Interpretation, Figure Evidence Passport & Exports`, `prd.md > States and Boundaries`
