@@ -51,7 +51,7 @@ export const WizardHeader: React.FC<WizardHeaderProps> = ({
   breadcrumbNarrative,
 }) => {
   return (
-    <header className="bg-[#142F50] text-white border-b border-[#0d2038] shadow-sm">
+    <header className="sticky top-0 z-30 bg-[#142F50] text-white border-b border-[#0d2038] shadow-sm">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3.5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Brand */}
@@ -104,16 +104,27 @@ export const WizardHeader: React.FC<WizardHeaderProps> = ({
             {/* Run without AI deterministic mode toggle */}
             <button
               type="button"
+              id="run-without-ai-toggle"
+              aria-pressed={runWithoutAi}
               onClick={() => onToggleRunWithoutAi(!runWithoutAi)}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${
                 runWithoutAi
-                  ? 'bg-[#A86710]/25 border-[#E7B84A] text-[#FFE08A]'
-                  : 'bg-[#1E3E66] border-slate-500/50 text-slate-200 hover:bg-[#264c7a]'
+                  ? 'bg-[#A86710]/35 border-[#E7B84A] text-[#FFE08A]'
+                  : 'bg-[#1E3E66] border-teal-400/50 text-white hover:bg-[#264c7a]'
               }`}
-              title="Toggle deterministic no-AI mode to verify full offline/manual workflow"
+              title="Toggle Run without AI to switch between Cloudflare Workers AI and 100% deterministic offline mode"
             >
-              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>{runWithoutAi ? 'Mode: Deterministic (No AI)' : 'Mode: AI + Python'}</span>
+              <Sparkles className="w-3.5 h-3.5 text-teal-300" aria-hidden="true" />
+              <span>Run without AI:</span>
+              <span
+                className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                  runWithoutAi
+                    ? 'bg-[#E7B84A] text-[#10233F]'
+                    : 'bg-slate-900/60 text-teal-300'
+                }`}
+              >
+                {runWithoutAi ? 'ON (Deterministic)' : 'OFF (Workers AI)'}
+              </span>
             </button>
 
             {activeFileName && (

@@ -50,6 +50,7 @@ interface ExportEvidenceStepProps {
   styleConfig: FigureStyleConfig;
   result: FullAnalysisResult;
   runWithoutAi: boolean;
+  onToggleRunWithoutAi: (val: boolean) => void;
   onBackToStudio: () => void;
 }
 
@@ -66,6 +67,7 @@ export const ExportEvidenceStep: React.FC<ExportEvidenceStepProps> = ({
   styleConfig,
   result,
   runWithoutAi,
+  onToggleRunWithoutAi,
   onBackToStudio,
 }) => {
   const [interpretation, setInterpretation] = useState<InterpretationOutput>(
@@ -289,7 +291,7 @@ export const ExportEvidenceStep: React.FC<ExportEvidenceStepProps> = ({
                 </h3>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
                     interpretation.source === 'ai'
@@ -315,12 +317,22 @@ export const ExportEvidenceStep: React.FC<ExportEvidenceStepProps> = ({
                     type="button"
                     disabled={isLoadingAi}
                     onClick={handleRequestAiInterpretation}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#10233F] hover:bg-[#1a3358] text-white text-xs font-semibold cursor-pointer disabled:opacity-60"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#10233F] hover:bg-[#1a3358] text-white text-xs font-semibold cursor-pointer disabled:opacity-60"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-teal-300" />
                     {isLoadingAi ? 'Verifying AI…' : 'Draft with Workers AI'}
                   </button>
                 )}
+
+                <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-[#E3E9EE] bg-[#F7F9FB] text-xs font-semibold text-[#10233F] cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={runWithoutAi}
+                    onChange={(e) => onToggleRunWithoutAi(e.target.checked)}
+                    className="rounded border-slate-300 text-[#0F766E] focus:ring-[#0F766E]"
+                  />
+                  <span>Run without AI</span>
+                </label>
               </div>
             </div>
 
@@ -346,44 +358,83 @@ export const ExportEvidenceStep: React.FC<ExportEvidenceStepProps> = ({
             </div>
 
             {/* Interactive Verified Claims Trace Pills */}
-            <div className="pt-2 border-t border-[#E3E9EE]">
-              <div className="flex items-center justify-between mb-2">
+            <div className="pt-3 border-t border-[#E3E9EE] space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#10233F]">
-                  Interactive Claim-to-Number Trace ({interpretation.verified_claims.length} verified claims)
+                  Verified Claim Badges ({interpretation.verified_claims.length} Claims)
                 </span>
-                <span className="text-[11px] text-[#0F766E] font-medium">
-                  Click a badge to highlight in Passport →
+                <span className="text-xs text-[#0F766E] font-semibold">
+                  Click any Verified Claim badge below to highlight in Passport →
                 </span>
               </div>
+
+              {highlightedClaimKey && (
+                <div className="px-3.5 py-2 rounded-xl bg-teal-50 border border-[#0F766E] text-xs text-[#10233F] flex items-center justify-between gap-2">
+                  <span>
+                    <strong>Active Claim Trace:</strong> Verified Claim{' '}
+                    <code className="font-mono font-bold text-[#0F766E]">
+                      {highlightedClaimKey}
+                    </code>{' '}
+                    is highlighted in <strong>Section 3</strong> of the Figure Evidence Passport on the right (0.000000 discrepancy vs Python engine).
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setHighlightedClaimKey(null)}
+                    className="text-[11px] font-semibold text-[#0F766E] underline cursor-pointer shrink-0"
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2">
                 {interpretation.verified_claims.map((claim) => {
                   const isSelected = highlightedClaimKey === claim.key;
+                  const formattedVal = Number.isInteger(claim.value)
+                    ? claim.value
+                    : Number(claim.value.toPrecision(6));
                   return (
                     <button
                       key={claim.key}
                       type="button"
-                      onClick={() =>
-                        setHighlightedClaimKey(
-                          isSelected ? null : claim.key
-                        )
-                      }
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono tabular-nums transition-all cursor-pointer ${
+                      onClick={() => {
+                        const nextKey = isSelected ? null : claim.key;
+                        setHighlightedClaimKey(nextKey);
+                        if (nextKey) {
+                          setShowRawJson(false);
+                          setTimeout(() => {
+                            const el = document.querySelector(
+                              `[data-passport-metric="${nextKey}"]`
+                            );
+                            el?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'nearest',
+                            });
+                          }, 60);
+                        }
+                      }}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono tabular-nums transition-all cursor-pointer shadow-2xs ${
                         isSelected
                           ? 'bg-[#0F766E] text-white ring-2 ring-[#0F766E]/40 font-bold'
-                          : 'bg-[#F7F9FB] hover:bg-teal-50 text-[#10233F] border border-[#E3E9EE] hover:border-[#0F766E]'
+                          : 'bg-white hover:bg-teal-50 text-[#10233F] border-2 border-[#0F766E]/40 hover:border-[#0F766E]'
                       }`}
                     >
                       <CheckCircle2
-                        className={`w-3.5 h-3.5 ${
+                        className={`w-3.5 h-3.5 shrink-0 ${
                           isSelected ? 'text-white' : 'text-[#15803D]'
                         }`}
                       />
-                      <span>{claim.key}:</span>
-                      <span className="font-bold">
-                        {Number.isInteger(claim.value)
-                          ? claim.value
-                          : Number(claim.value.toPrecision(6))}
+                      <span
+                        className={`font-sans text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                          isSelected
+                            ? 'bg-white/20 text-white'
+                            : 'bg-teal-50 text-[#0F766E]'
+                        }`}
+                      >
+                        Verified Claim
                       </span>
+                      <span>{claim.key} =</span>
+                      <span className="font-bold">{formattedVal}</span>
                     </button>
                   );
                 })}

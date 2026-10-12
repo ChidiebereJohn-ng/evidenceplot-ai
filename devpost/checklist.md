@@ -49,7 +49,7 @@ Build mode: fast
   Learner check: Enter a research objective in Step 2, test **Propose analysis plan** and the **Run without AI** toggle, and confirm the privacy notice and fallback behavior work cleanly.
   Commit: `Add Cloudflare Workers AI plan and interpret endpoints with schema and claim guards`
 
-- [ ] **5. Add Pearson correlation scatterplot and validated time-series line chart**
+- [x] **5. Add Pearson correlation scatterplot and validated time-series line chart**
   Becomes usable: You can load `synthetic_correlation.csv` (or a time-indexed CSV), run **Pearson correlation** (`n = 10`, `r = 0.9854`, `p = 1.9487e-7`) or a validated **time-series line chart**, customize the **scatterplot** or **time-series line** in Figure Studio, and export its verified Figure Evidence Passport and graphics.
   Why now: Completes the secondary in-scope allowlisted analyses and chart types on top of the verified primary vertical slice.
   PRD ref: `prd.md > 3. Deterministic Statistical Engine & Safeguards`, `prd.md > 4. Figure Studio & Interactive Customization`, `prd.md > What We're Building`
@@ -61,11 +61,14 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after Slice 4 (complete primary two-group Welch's t-test + Workers AI + Figure Studio + Evidence Passport vertical slice)
+- [x] Early usable behavior explored — after Slice 4 (complete primary two-group Welch's t-test + Workers AI + Figure Studio + Evidence Passport vertical slice; learner also tested `synthetic_correlation.csv` Pearson correlation scatterplot and exports)
 - [ ] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
+- [ ] Verify local Vite dev Workers AI binding (`createLocalDevAiBinding` in `worker/index.ts` and `vite.config.ts`) so **Propose Analysis Plan (Workers AI)** in Step 2 and **Draft with Workers AI** in Step 4 work out of the box in `npm run dev`
+- [ ] Verify sticky header **Run without AI** toggle (`Run without AI: OFF (Workers AI)` / `ON (Deterministic)`) and inline **Run without AI** checkboxes in Step 2 and Step 4
+- [ ] Verify explicitly labeled **Verified Claim** badges (`Verified Claim · key = value`) and active claim trace banner + Section 3 row highlight in Step 4
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
@@ -81,3 +84,8 @@ Reflection: [offered/answered/declined/already covered — personal answer belon
 Activity mode: [live app and editor, explicit static fallback, focused alternative, prior practice, or recap]
 
 ## Revisions
+
+- Added `createLocalDevAiBinding()` in `worker/index.ts` and wired it into `vite.config.ts` local SSR middleware after hands-on testing showed `handleApiRequest(request, {})` was missing an `AI` binding during local `npm run dev`.
+- Made `WizardHeader` sticky (`sticky top-0 z-30`), renamed the mode toggle explicitly to `Run without AI: OFF (Workers AI)` / `ON (Deterministic)`, and added inline `Run without AI` checkboxes directly next to the AI action buttons in Step 2 and Step 4.
+- Added an explicit `Verified Claim` label badge on each clickable claim chip in `ExportEvidenceStep.tsx`, plus an active trace confirmation banner and smooth scroll to Section 3 of the Figure Evidence Passport.
+

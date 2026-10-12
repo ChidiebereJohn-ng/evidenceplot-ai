@@ -353,6 +353,7 @@ export const App: React.FC = () => {
             confirmedConfig={confirmedConfig}
             onUpdateConfirmedConfig={setConfirmedConfig}
             runWithoutAi={runWithoutAi}
+            onToggleRunWithoutAi={setRunWithoutAi}
             activePlan={activePlan}
             onConfirmPlanAndExecute={executeAnalysis}
             onBackToData={() => setCurrentStep(1)}
@@ -390,6 +391,7 @@ export const App: React.FC = () => {
             styleConfig={styleConfig}
             result={analysisResult}
             runWithoutAi={runWithoutAi}
+            onToggleRunWithoutAi={setRunWithoutAi}
             onBackToStudio={() => setCurrentStep(3)}
           />
         )}

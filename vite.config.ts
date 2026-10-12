@@ -14,7 +14,8 @@ export default defineConfig({
             return next();
           }
           try {
-            const { handleApiRequest } = await server.ssrLoadModule('/worker/index.ts');
+            const { handleApiRequest, createLocalDevAiBinding } =
+              await server.ssrLoadModule('/worker/index.ts');
             const chunks: Buffer[] = [];
             for await (const chunk of req) {
               chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
@@ -26,7 +27,9 @@ export default defineConfig({
               headers: req.headers as Record<string, string>,
               body: ['GET', 'HEAD'].includes(req.method || 'GET') ? undefined : bodyBuffer,
             });
-            const response: Response = await handleApiRequest(request, {});
+            const response: Response = await handleApiRequest(request, {
+              AI: createLocalDevAiBinding(),
+            });
             res.statusCode = response.status;
             response.headers.forEach((value, key) => {
               res.setHeader(key, value);

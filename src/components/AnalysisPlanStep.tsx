@@ -28,6 +28,7 @@ interface AnalysisPlanStepProps {
   confirmedConfig: ConfirmedDatasetConfig;
   onUpdateConfirmedConfig: (next: ConfirmedDatasetConfig) => void;
   runWithoutAi: boolean;
+  onToggleRunWithoutAi: (val: boolean) => void;
   activePlan: AnalysisPlan | null;
   onConfirmPlanAndExecute: (
     plan: AnalysisPlan,
@@ -202,6 +203,7 @@ export const AnalysisPlanStep: React.FC<AnalysisPlanStepProps> = ({
   confirmedConfig,
   onUpdateConfirmedConfig,
   runWithoutAi,
+  onToggleRunWithoutAi,
   activePlan,
   onConfirmPlanAndExecute,
   onBackToData,
@@ -462,26 +464,38 @@ export const AnalysisPlanStep: React.FC<AnalysisPlanStepProps> = ({
             />
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={handleRequestPlan}
-                disabled={isLoadingAiPlan}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#10233F] hover:bg-[#1a3358] text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
-              >
-                {runWithoutAi ? (
-                  <>
-                    <Sliders className="w-4 h-4 text-[#0F766E]" />
-                    Update Deterministic Plan
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 text-teal-300" />
-                    {isLoadingAiPlan
-                      ? 'Requesting AI Plan…'
-                      : 'Propose Analysis Plan'}
-                  </>
-                )}
-              </button>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={handleRequestPlan}
+                  disabled={isLoadingAiPlan}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#10233F] hover:bg-[#1a3358] text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
+                >
+                  {runWithoutAi ? (
+                    <>
+                      <Sliders className="w-4 h-4 text-teal-300" />
+                      Update Deterministic Plan (No AI)
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 text-teal-300" />
+                      {isLoadingAiPlan
+                        ? 'Requesting Workers AI Plan…'
+                        : 'Propose Analysis Plan (Workers AI)'}
+                    </>
+                  )}
+                </button>
+
+                <label className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[#E3E9EE] bg-[#F7F9FB] hover:border-[#10233F]/30 text-xs font-semibold text-[#10233F] cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={runWithoutAi}
+                    onChange={(e) => onToggleRunWithoutAi(e.target.checked)}
+                    className="rounded border-slate-300 text-[#0F766E] focus:ring-[#0F766E]"
+                  />
+                  <span>Run without AI</span>
+                </label>
+              </div>
 
               <span className="text-xs text-[#536579]">
                 Allowlist: <code className="font-mono text-[#10233F]">descriptive</code> ·{' '}
@@ -491,7 +505,7 @@ export const AnalysisPlanStep: React.FC<AnalysisPlanStepProps> = ({
             </div>
 
             {aiStatusNotice && (
-              <div className="mt-3 px-3.5 py-2.5 rounded-xl bg-[#F7F9FB] border border-[#E3E9EE] text-xs text-[#536579] flex items-center gap-2">
+              <div className="mt-3 px-3.5 py-2.5 rounded-xl bg-teal-50/70 border border-teal-200 text-xs text-[#10233F] flex items-center gap-2">
                 <Bot className="w-4 h-4 text-[#0F766E] shrink-0" />
                 <span>{aiStatusNotice}</span>
               </div>

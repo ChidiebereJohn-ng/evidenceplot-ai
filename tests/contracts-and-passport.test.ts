@@ -268,6 +268,58 @@ describe('Figure Evidence Passport, Claim Verifier & Schema Contracts', () => {
     const unverifiedInterpJson = await unverifiedInterpRes.json();
     expect(unverifiedInterpJson.source).toBe('deterministic_template');
     expect(unverifiedInterpJson.fallback_reason).toMatch(/Numeric mismatch/i);
+
+    // 5. Local dev Workers AI binding (createLocalDevAiBinding) produces schema-verified AI plans and interpretations
+    const { createLocalDevAiBinding } = await import('../worker/index');
+    const localAi = createLocalDevAiBinding();
+
+    const localPlanRes = await handleApiRequest(
+      new Request('http://localhost/api/ai/plan', {
+        method: 'POST',
+        body: JSON.stringify({
+          objective: 'Test linear correlation between exposure and response over time',
+          schema_summary: {
+            confirmed_unit: 'mg/L',
+            independent_observations: true,
+            columns: [
+              { name: 'exposure', distinct_count: 10 },
+              { name: 'response', distinct_count: 10 },
+            ],
+          },
+          selected_columns: { x: 'exposure', y: 'response', value: 'response' },
+        }),
+      }),
+      { AI: localAi }
+    );
+    const localPlanJson = await localPlanRes.json();
+    expect(localPlanJson.source).toBe('ai');
+    expect(localPlanJson.plan.analysis).toBe('pearson');
+    expect(localPlanJson.plan.chart).toBe('time_series');
+
+    const localInterpRes = await handleApiRequest(
+      new Request('http://localhost/api/ai/interpret', {
+        method: 'POST',
+        body: JSON.stringify({
+          objective: 'Test linear correlation between exposure and response',
+          method: 'pearson',
+          unit: 'mg/L',
+          n_total: 10,
+          numbers: {
+            n: 10,
+            r: 0.98540854,
+            p_two_sided: 1.94871279e-7,
+            mean_x: 5.5,
+            mean_y: 8.93,
+          },
+          limitations: ['Observational correlation does not establish causation.'],
+        }),
+      }),
+      { AI: localAi }
+    );
+    const localInterpJson = await localInterpRes.json();
+    expect(localInterpJson.source).toBe('ai');
+    expect(localInterpJson.interpretation.verified_claims.length).toBe(5);
   });
 });
+
 
