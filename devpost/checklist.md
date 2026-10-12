@@ -62,30 +62,32 @@ Build mode: fast
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after Slice 4 (complete primary two-group Welch's t-test + Workers AI + Figure Studio + Evidence Passport vertical slice; learner also tested `synthetic_correlation.csv` Pearson correlation scatterplot and exports)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
-- [ ] Verify local Vite dev Workers AI binding (`createLocalDevAiBinding` in `worker/index.ts` and `vite.config.ts`) so **Propose Analysis Plan (Workers AI)** in Step 2 and **Draft with Workers AI** in Step 4 work out of the box in `npm run dev`
-- [ ] Verify sticky header **Run without AI** toggle (`Run without AI: OFF (Workers AI)` / `ON (Deterministic)`) and inline **Run without AI** checkboxes in Step 2 and Step 4
-- [ ] Verify explicitly labeled **Verified Claim** badges (`Verified Claim · key = value`) and active claim trace banner + Section 3 row highlight in Step 4
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Verify local Vite dev Workers AI binding (`createLocalDevAiBinding` in `worker/index.ts` and `vite.config.ts`) so **Propose Analysis Plan (Workers AI)** in Step 2 and **Draft with Workers AI** in Step 4 work out of the box in `npm run dev`
+- [x] Verify sticky header **Run without AI** toggle (`Run without AI: OFF (Workers AI)` / `ON (Deterministic)`) and inline **Run without AI** checkboxes in Step 2 and Step 4
+- [x] Verify explicitly labeled **Verified Claim** badges (`Verified Claim · key = value`) and active claim trace banner + Section 3 row highlight in Step 4
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — focused verification activity connecting neuro-symbolic `P0/P1/P2` boundary to end-to-end automated test suite (`tests/end-to-end-journey.test.ts`)
+- [x] Optional edit and transfer reflection addressed — offered alongside the learning wrap-up
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [what actually happened; real document/test/code references; unfinished work if interrupted]
-Route and stops: [actual paths and symbols; guided stops completed, or reference-only route]
-Edit outcome: [tried/kept/reverted/declined/not applicable; verification if changed]
-Reflection: [offered/answered/declined/already covered — personal answer belongs only in the ignored profile]
-Activity mode: [live app and editor, explicit static fallback, focused alternative, prior practice, or recap]
+Activity and evidence: Connected the learner's goal (combining Cloudflare Workers AI reasoning with deterministic scientific computing and rigorous modular testing) to `tests/end-to-end-journey.test.ts` (verifying Scenario 1 Two-Group Welch's t-test, Scenario 2 Pearson correlation/time-series, and Scenario 3 messy-data guardrails & `P0/P1/P2` claim verification).
+Route and stops: Reference route in `devpost/app-map.html` covering Stop 1 (`src/lib/csvParser.ts` `parseAndValidateCsvBuffer`, `src/lib/dataProfiler.ts` `profileDataset`), Stop 2 (`src/lib/scientificEngine.ts` `runStatisticalAnalysis`, `src/python/engine.py` `run_welch_two_group`), and Stop 3 (`worker/index.ts` `handleApiRequest`, `src/lib/claimVerifier.ts` `verifyInterpretationClaims`, `src/lib/passport.ts` `buildEvidencePassport`).
+Edit outcome: Implemented and verified three learner-driven UI/Worker refinements from live exploration (`a64937b`) plus end-to-end test suite (`tests/end-to-end-journey.test.ts`).
+Reflection: Offered optional transfer reflection question at the end of `5-build`.
+Activity mode: Focused alternative (end-to-end verification test + reference code map).
 
 ## Revisions
 
 - Added `createLocalDevAiBinding()` in `worker/index.ts` and wired it into `vite.config.ts` local SSR middleware after hands-on testing showed `handleApiRequest(request, {})` was missing an `AI` binding during local `npm run dev`.
 - Made `WizardHeader` sticky (`sticky top-0 z-30`), renamed the mode toggle explicitly to `Run without AI: OFF (Workers AI)` / `ON (Deterministic)`, and added inline `Run without AI` checkboxes directly next to the AI action buttons in Step 2 and Step 4.
 - Added an explicit `Verified Claim` label badge on each clickable claim chip in `ExportEvidenceStep.tsx`, plus an active trace confirmation banner and smooth scroll to Section 3 of the Figure Evidence Passport.
+- Added `tests/end-to-end-journey.test.ts` to verify all three end-to-end workflows (two-group Welch's t-test, Pearson correlation/time-series, and messy-data guardrails) in a single command (`npm run test`).
+
 

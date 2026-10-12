@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EvidencePlot AI — Architecture &amp; Code Map</title>
+  <style>
+    :root {
+      --bg: #F7F9FB;
+      --surface: #FFFFFF;
+      --ink: #10233F;
+      --muted: #536579;
+      --teal: #0F766E;
+      --border: #E3E9EE;
+      --amber: #B45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    header, section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+    }
+    header {
+      background: #142F50;
+      color: #FFFFFF;
+      border-color: #0d2038;
+    }
+    header h1 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+    }
+    header p {
+      margin: 0;
+      color: #CBD5E1;
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: rgba(15, 118, 110, 0.25);
+      border: 1px solid #2DD4BF;
+      color: #99F6E4;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: var(--ink);
+    }
+    h3 {
+      margin: 0 0 6px 0;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    p { margin: 0 0 12px 0; font-size: 14px; color: var(--muted); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      background: #F1F5F9;
+      color: var(--ink);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .stop-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: var(--bg);
+    }
+    .stop-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: var(--bg);
+      margin-top: 10px;
+    }
+    summary {
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin-top: 8px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: var(--bg);
+    }
+    .practice-box {
+      border-left: 4px solid var(--teal);
+      background: #F0FDFA;
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Snapshot Reference Map · Base Commit a64937b</span>
+      <h1>EvidencePlot AI — Architecture &amp; Code Map</h1>
+      <p>
+        A neuro-symbolic research figure and statistical analysis assistant. Raw CSV rows (<code>P0</code>) stay in browser memory, Python/SciPy executes all statistics deterministically, and Cloudflare Workers AI operates strictly on sanitized schema metadata (<code>P1</code>) and verified numeric outputs (<code>P2</code>).
+      </p>
+    </header>
+
+    <section>
+      <h2>1. End-to-End Neuro-Symbolic Flow Diagram</h2>
+      <p>How one researcher action flows from local CSV upload to the verified Figure Evidence Passport:</p>
+      <div style="overflow-x:auto;margin-top:12px;">
+        <svg viewBox="0 0 880 155" width="100%" height="auto" role="img" aria-label="EvidencePlot AI 4-step architecture flow">
+          <rect x="8" y="18" width="195" height="115" rx="12" fill="#F7F9FB" stroke="#10233F" stroke-width="1.8" />
+          <text x="22" y="42" fill="#0F766E" font-size="11" font-weight="700" font-family="sans-serif">STEP 1 · BROWSER ONLY (P0)</text>
+          <text x="22" y="64" fill="#10233F" font-size="13" font-weight="700" font-family="sans-serif">CSV Intake &amp; SHA-256</text>
+          <text x="22" y="84" fill="#536579" font-size="11" font-family="monospace">src/lib/csvParser.ts</text>
+          <text x="22" y="102" fill="#536579" font-size="11" font-family="monospace">src/lib/dataProfiler.ts</text>
+          <text x="22" y="120" fill="#10233F" font-size="10.5" font-family="sans-serif">Flags missing/duplicates/units</text>
+
+          <line x1="203" y1="75" x2="229" y2="75" stroke="#0F766E" stroke-width="2" />
+          <polygon points="229,70 239,75 229,80" fill="#0F766E" />
+
+          <rect x="240" y="18" width="195" height="115" rx="12" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.8" />
+          <text x="254" y="42" fill="#0F766E" font-size="11" font-weight="700" font-family="sans-serif">STEP 2 · SCHEMA ONLY (P1)</text>
+          <text x="254" y="64" fill="#10233F" font-size="13" font-weight="700" font-family="sans-serif">AI Plan &amp; Assumption Gate</text>
+          <text x="254" y="84" fill="#536579" font-size="11" font-family="monospace">worker/index.ts (/api/ai/plan)</text>
+          <text x="254" y="102" fill="#536579" font-size="11" font-family="monospace">AnalysisPlanStep.tsx</text>
+          <text x="254" y="120" fill="#10233F" font-size="10.5" font-family="sans-serif">Allowlist + assumption checks</text>
+
+          <line x1="435" y1="75" x2="461" y2="75" stroke="#0F766E" stroke-width="2" />
+          <polygon points="461,70 471,75 461,80" fill="#0F766E" />
+
+          <rect x="472" y="18" width="195" height="115" rx="12" fill="#F7F9FB" stroke="#10233F" stroke-width="1.8" />
+          <text x="486" y="42" fill="#0F766E" font-size="11" font-weight="700" font-family="sans-serif">STEP 3 · DETERMINISTIC ENGINE</text>
+          <text x="486" y="64" fill="#10233F" font-size="13" font-weight="700" font-family="sans-serif">SciPy Engine &amp; SVG Studio</text>
+          <text x="486" y="84" fill="#536579" font-size="11" font-family="monospace">src/python/engine.py</text>
+          <text x="486" y="102" fill="#536579" font-size="11" font-family="monospace">src/lib/scientificEngine.ts</text>
+          <text x="486" y="120" fill="#10233F" font-size="10.5" font-family="sans-serif">Welch t / Pearson r + raw SVG</text>
+
+          <line x1="667" y1="75" x2="693" y2="75" stroke="#0F766E" stroke-width="2" />
+          <polygon points="693,70 703,75 693,80" fill="#0F766E" />
+
+          <rect x="704" y="18" width="168" height="115" rx="12" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.8" />
+          <text x="716" y="42" fill="#0F766E" font-size="11" font-weight="700" font-family="sans-serif">STEP 4 · AUDITABLE (P2)</text>
+          <text x="716" y="64" fill="#10233F" font-size="13" font-weight="700" font-family="sans-serif">Passport &amp; Exports</text>
+          <text x="716" y="84" fill="#536579" font-size="11" font-family="monospace">src/lib/claimVerifier.ts</text>
+          <text x="716" y="102" fill="#536579" font-size="11" font-family="monospace">src/lib/passport.ts</text>
+          <text x="716" y="120" fill="#10233F" font-size="10.5" font-family="sans-serif">SVG, PNG, JSON &amp; Report</text>
+        </svg>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Three-Stop Reference Code Route</h2>
+      <p>Reference route tracing how a dataset moves from local intake through deterministic calculation to verified claim tracing:</p>
+      <div class="grid-3">
+        <div class="stop-card">
+          <span class="stop-num">Stop 1 · Local Intake &amp; Hashing</span>
+          <h3><code>src/lib/csvParser.ts</code> &amp; <code>src/lib/dataProfiler.ts</code></h3>
+          <p>
+            <code>parseAndValidateCsvBuffer()</code> computes the browser Web Crypto SHA-256 digest and enforces 5 MB / 10k-row guardrails. <code>profileDataset()</code> detects missing cells, duplicate IDs (<code>SYN04</code>), <code>-999</code> sentinels, whitespace/case collisions, and unit conflicts before Step 2 unlocks.
+          </p>
+        </div>
+
+        <div class="stop-card">
+          <span class="stop-num">Stop 2 · Deterministic Statistical Kernel</span>
+          <h3><code>src/lib/scientificEngine.ts</code> &amp; <code>src/python/engine.py</code></h3>
+          <p>
+            <code>runStatisticalAnalysis()</code> and <code>run_welch_two_group()</code> compute exact two-sided Welch's t-tests (Group B minus Group A sign convention), Satterthwaite degrees of freedom, 95% CIs, and Pearson correlations matching SciPy 1.17.0 to <code>&lt; 1e-9</code>.
+          </p>
+        </div>
+
+        <div class="stop-card">
+          <span class="stop-num">Stop 3 · Claim Verifier &amp; Passport</span>
+          <h3><code>worker/index.ts</code>, <code>src/lib/claimVerifier.ts</code> &amp; <code>src/lib/passport.ts</code></h3>
+          <p>
+            <code>handleApiRequest()</code> enforces the <code>RAW_ROWS_PROHIBITED</code> (<code>P0</code>) boundary. <code>verifyInterpretationClaims()</code> checks every AI-cited number against <code>result.numbers</code>, and <code>buildEvidencePassport()</code> packages the cryptographic audit trail.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. "To Change This, Start Here" Pointers</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>What You Want to Change</th>
+            <th>File &amp; Symbol Anchor</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Add a new statistical method or chart type</td>
+            <td><code>src/lib/contracts.ts</code> (<code>ALLOWED_ANALYSES</code>, <code>ALLOWED_CHARTS</code>) &rarr; <code>src/lib/scientificEngine.ts</code> (<code>runStatisticalAnalysis</code>)</td>
+            <td>Always add golden reference values in <code>public/examples/reference_outputs.json</code> and a test in <code>tests/golden-engine.test.ts</code> first.</td>
+          </tr>
+          <tr>
+            <td>Customize SVG figure palettes, jitter, or error bars</td>
+            <td><code>src/components/FigureCanvas.tsx</code> (<code>PALETTES</code>, <code>deterministicJitter</code>)</td>
+            <td>All plotted points carry <code>data-sample-id</code> and <code>data-value</code> attributes for inspection.</td>
+          </tr>
+          <tr>
+            <td>Adjust Workers AI prompts or local dev synthesis</td>
+            <td><code>worker/index.ts</code> (<code>handleApiRequest</code>, <code>createLocalDevAiBinding</code>)</td>
+            <td>Keep <code>AnalysisPlanSchema</code> and <code>verifyInterpretationClaims</code> active so invalid AI outputs fall back deterministically.</td>
+          </tr>
+          <tr>
+            <td>Add fields to <code>evidence-passport.json</code> or reports</td>
+            <td><code>src/lib/passport.ts</code> (<code>buildEvidencePassport</code>, <code>generateMarkdownReport</code>)</td>
+            <td>Verify schema changes with <code>tests/contracts-and-passport.test.ts</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>4. A Practice to Reuse</h2>
+      <div class="practice-box">
+        <h3>Neuro-Symbolic Contract + Golden Reference Verification</h3>
+        <p style="color:#10233F;margin-bottom:8px;">
+          <strong>Project Decision &amp; Evidence:</strong> Rather than trusting an LLM to compute statistics or summarize raw rows, EvidencePlot AI enforces a three-tier privacy and verification contract (<code>P0</code> browser-only raw rows, <code>P1</code> schema metadata for <code>/api/ai/plan</code>, and <code>P2</code> verified engine numbers for <code>/api/ai/interpret</code>), backed by <code>tests/golden-engine.test.ts</code> (<code>&lt; 1e-9</code> parity with SciPy 1.17.0 in <code>public/examples/reference_outputs.json</code>) and <code>tests/end-to-end-journey.test.ts</code>.
+        </p>
+        <p style="color:#10233F;margin:0;">
+          <strong>How to Reuse Next Time:</strong> Whenever you build an AI application in a scientific, financial, or engineering domain, separate <em>AI planning/narration</em> from <em>deterministic calculation</em>, validate every AI response against a strict schema + numeric claim verifier (<code>src/lib/claimVerifier.ts</code>), and keep a deterministic fallback mode (<code>Run without AI</code>) so the application remains 100% reliable even when AI is offline or rejects an unverified claim.
+        </p>
+      </div>
+
+      <details>
+        <summary>How to Run, Test &amp; Reopen This Project</summary>
+        <p style="margin-top:8px;">
+          1. Start the local development server: <code>npm run dev</code> (opens at <code>http://localhost:5173/</code>)<br />
+          2. Run the full automated unit &amp; end-to-end verification suite: <code>npm run test</code><br />
+          3. Build production bundle: <code>npm run build</code><br />
+          4. Reopen this map anytime by opening <code>devpost/app-map.html</code> directly in any browser (works 100% offline).
+        </p>
+      </details>
+    </section>
+  </div>
+</body>
+</html>
