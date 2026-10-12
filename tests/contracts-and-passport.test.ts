@@ -160,4 +160,114 @@ describe('Figure Evidence Passport, Claim Verifier & Schema Contracts', () => {
     });
     expect(invalidPlan.success).toBe(false);
   });
+
+  it('enforces P0 privacy boundary, Zod schema guard, and claim verifier on Cloudflare Worker AI endpoints', async () => {
+    const { handleApiRequest } = await import('../worker/index');
+
+    // 1. Health endpoint
+    const healthRes = await handleApiRequest(
+      new Request('http://localhost/api/health', { method: 'GET' }),
+      {}
+    );
+    expect(healthRes.status).toBe(200);
+    const healthJson = await healthRes.json();
+    expect(healthJson.ok).toBe(true);
+    expect(healthJson.model).toBe('@cf/meta/llama-3.3-70b-instruct-fp8-fast');
+
+    // 2. Rejects raw CSV rows (P0 violation)
+    const rawRowsRes = await handleApiRequest(
+      new Request('http://localhost/api/ai/plan', {
+        method: 'POST',
+        body: JSON.stringify({
+          objective: 'Compare groups',
+          rows: [{ sample_id: 'SYN01', response: '8.2' }],
+        }),
+      }),
+      {}
+    );
+    expect(rawRowsRes.status).toBe(400);
+    const rawRowsJson = await rawRowsRes.json();
+    expect(rawRowsJson.error.code).toBe('RAW_ROWS_PROHIBITED');
+
+    // 3. Valid Workers AI plan response
+    const validPlanRes = await handleApiRequest(
+      new Request('http://localhost/api/ai/plan', {
+        method: 'POST',
+        body: JSON.stringify({
+          objective: 'Compare control vs treatment response',
+          schema_summary: {
+            confirmed_unit: 'arbitrary units',
+            independent_observations: true,
+            columns: [
+              { name: 'group', distinct_count: 2 },
+              { name: 'response', distinct_count: 12 },
+            ],
+          },
+          selected_columns: { group: 'group', value: 'response' },
+        }),
+      }),
+      {
+        AI: {
+          run: async () => ({
+            response: JSON.stringify({
+              analysis: 'welch_t',
+              chart: 'grouped_points',
+              columns: { group: 'group', value: 'response' },
+              confidence: 'requires_confirmation',
+              assumptions_to_confirm: ['Independent observations'],
+              rationale: 'Two independent groups with continuous response.',
+              warnings: [],
+            }),
+          }),
+        },
+      }
+    );
+    expect(validPlanRes.status).toBe(200);
+    const validPlanJson = await validPlanRes.json();
+    expect(validPlanJson.source).toBe('ai');
+    expect(validPlanJson.plan.analysis).toBe('welch_t');
+
+    // 4. Rejects unverified AI claim in /api/ai/interpret and falls back deterministically
+    const unverifiedInterpRes = await handleApiRequest(
+      new Request('http://localhost/api/ai/interpret', {
+        method: 'POST',
+        body: JSON.stringify({
+          objective: 'Compare groups',
+          method: 'welch_t',
+          unit: 'arbitrary units',
+          comparison_direction: 'treatment minus control',
+          n_total: 12,
+          numbers: {
+            n_a: 6,
+            n_b: 6,
+            difference_b_minus_a: 3.55,
+            t_b_minus_a: 7.38001259,
+            df: 9.9988,
+            p_two_sided: 0.00002371,
+            ci95_low: 2.4782,
+            ci95_high: 4.6218,
+          },
+          limitations: ['Small sample size.'],
+        }),
+      }),
+      {
+        AI: {
+          run: async () => ({
+            response: JSON.stringify({
+              headline: 'Hallucinated p-value headline',
+              summary: 'Summary with fabricated number.',
+              figure_caption: 'Caption.',
+              limitations: ['Small sample size.'],
+              verified_claims: [{ key: 'p_two_sided', value: 0.555 }], // Mismatch!
+            }),
+          }),
+        },
+      }
+    );
+    expect(unverifiedInterpRes.status).toBe(200);
+    const unverifiedInterpJson = await unverifiedInterpRes.json();
+    expect(unverifiedInterpJson.source).toBe('deterministic_template');
+    expect(unverifiedInterpJson.fallback_reason).toMatch(/Numeric mismatch/i);
+  });
 });
+

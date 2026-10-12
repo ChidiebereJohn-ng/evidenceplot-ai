@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: Complete the 4-step flow on `synthetic_groups.csv`, click a verified claim badge in Step 4, expand the Figure Evidence Passport, and download the SVG, PNG, and `evidence-passport.json`.
   Commit: `Add Figure Evidence Passport, claim-to-number trace, and SVG/PNG/JSON/report exports`
 
-- [ ] **4. Connect Cloudflare Workers AI (`/api/ai/plan` and `/api/ai/interpret`) with Zod schema validation and deterministic fallback**
+- [x] **4. Connect Cloudflare Workers AI (`/api/ai/plan` and `/api/ai/interpret`) with Zod schema validation and deterministic fallback**
   Becomes usable: Clicking **Propose analysis plan** in Step 2 calls the same-origin Cloudflare Worker (`POST /api/ai/plan`) with sanitized column metadata (`P1`) to suggest an allowlisted method and chart, and Step 4 calls `POST /api/ai/interpret` with verified calculation outputs (`P2`) to generate an AI narrative whose numbers are programmatically checked against the Python engine (with automatic fallback if AI is offline or returns an unverified claim).
   Why now: Connects live Cloudflare Workers AI (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`) to the proven deterministic pipeline while verifying that privacy boundaries (`P0` never sent) and fallback paths hold under all conditions.
   PRD ref: `prd.md > 2. Research Objective, AI Planning, and Assumption Confirmation`, `prd.md > 5. Grounded Interpretation, Figure Evidence Passport & Exports`, `prd.md > States and Boundaries`
