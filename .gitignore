@@ -5,6 +5,8 @@
 node_modules/
 dist/
 .wrangler/
+*.tsbuildinfo
+
 
 # Credentials, secrets & environment variables
 .dev.vars

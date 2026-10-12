@@ -75,3 +75,8 @@ SYN06,treated,16.3,unknown
 `,
   },
 ];
+
+export const SYNTHETIC_GROUPS_CSV = SAMPLE_FIXTURES[0].rawCsv;
+export const SYNTHETIC_CORRELATION_CSV = SAMPLE_FIXTURES[1].rawCsv;
+export const MESSY_EXAMPLE_CSV = SAMPLE_FIXTURES[2].rawCsv;
+

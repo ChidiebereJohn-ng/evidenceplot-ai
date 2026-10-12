@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Open the app, click **Try a sample dataset** to load both `synthetic_groups.csv` and `messy_example.csv`, inspect the preview and quality flags, and confirm the calm scientific look and feel matches your vision.
   Commit: `Scaffold app and add CSV intake, SHA-256 hashing, and Step 1 data inspector`
 
-- [ ] **2. Run deterministic Welch two-group and descriptive analyses in the Python worker and customize the grouped raw-point plot in Figure Studio**
+- [x] **2. Run deterministic Welch two-group and descriptive analyses in the Python worker and customize the grouped raw-point plot in Figure Studio**
   Becomes usable: You can enter a research objective in Step 2, select or confirm **Welch's independent two-group t-test** or **Descriptive summaries**, check the required assumption gate, run the deterministic calculation via the Pyodide Web Worker (`src/python/engine.py` + `src/lib/scientificEngine.ts`), and use **Step 3 (Figure Studio)** to inspect all 12 plotted observations (`synthetic_groups.csv`), view exact statistics (`t = 7.3800`, `df = 9.9988`, `p = 0.00002371`, `difference = 3.55`, 95% CI `[2.4782, 4.6218]`), and edit title, axis labels, units, safe bounds, palette, and point display.
   Why now: Delivers the core scientific kernel and primary vertical slice early—proving 100% numerical parity against `examples/reference_outputs.json`, assumption blocking (`3+ groups`, `n < 2`, unconfirmed independence), and raw-point SVG visualization before adding AI calls.
   PRD ref: `prd.md > The Core Journey` (steps 3-4), `prd.md > 2. Research Objective, AI Planning, and Assumption Confirmation`, `prd.md > 3. Deterministic Statistical Engine & Safeguards`, `prd.md > 4. Figure Studio & Interactive Customization`
