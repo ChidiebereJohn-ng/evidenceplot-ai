@@ -189,6 +189,8 @@ describe('EvidencePlot AI — Complete End-to-End Solution Verification Suite', 
       buffer
     );
     const profile = profileDataset(parsed.headers, parsed.rows);
+    expect(profile.rowCount).toBe(10);
+
 
     const confirmedConfig = {
       idColumn: 'sample_id',

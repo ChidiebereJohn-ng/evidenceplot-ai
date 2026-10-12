@@ -2,6 +2,9 @@
 
 Research plotting and statistical analysis web application with a neuro-symbolic trust boundary (`P0` browser-only raw CSV rows, `P1` sanitized column metadata for planning, deterministic Python/SciPy calculation engine, and `P2` verified numeric claim checking + `evidence-passport.json`).
 
+- **Live Cloudflare Workers App:** https://evidenceplot-ai.chidieberejohnchukwuemeka.workers.dev
+- **GitHub Repository:** https://github.com/ChidiebereJohn-ng/evidenceplot-ai
+
 ## Architecture & Directory Layout
 
 - `src/lib/` — Browser CSV parser (`csvParser.ts`), SHA-256 fingerprinter, data quality profiler (`dataProfiler.ts`), deterministic statistical engine (`scientificEngine.ts`), numeric claim verifier (`claimVerifier.ts`), Figure Evidence Passport builder (`passport.ts`), and SVG/2x PNG exporter (`svgExport.ts`).

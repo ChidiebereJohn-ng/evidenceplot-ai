@@ -243,3 +243,9 @@ EvidencePlot-AI/
   - *Question:* How do we guarantee both fast, non-blocking UX and 100% numerical reproducibility in browser tests when Pyodide loads `numpy`/`scipy` over CDN in a Web Worker?
   - *Resolution:* We isolate Pyodide inside `src/workers/analysis.worker.ts` with lazy initialization and pair it with a deterministic, zero-dependency statistical module (`src/lib/scientificEngine.ts` using exact Welch-Satterthwaite `df` and incomplete beta distribution `p`-value computation) that is unit-tested in Vitest against `examples/reference_outputs.json` (`< 1e-9` absolute tolerance). In the browser, Pyodide executes the Python engine when loaded and reports `Python/Pyodide (scipy)` in the Evidence Passport, while tests and offline environments remain 100% deterministic and verifiable.
 - **Open Issues:** None blocking `5-build`.
+
+## Shipping & Sharing Links (`6-ship`)
+- **GitHub Repository URL:** `https://github.com/ChidiebereJohn-ng/evidenceplot-ai`
+- **Live Cloudflare Workers Deployment URL:** `https://evidenceplot-ai.chidieberejohnchukwuemeka.workers.dev`
+- **Live Workers AI Health Endpoint:** `https://evidenceplot-ai.chidieberejohnchukwuemeka.workers.dev/api/health` (`{"ok":true,"service":"evidenceplot-ai","aiConfigured":true,"model":"@cf/meta/llama-3.3-70b-instruct-fp8-fast","version":"0.1.0"}`)
+
